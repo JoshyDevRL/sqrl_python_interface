@@ -1,0 +1,12 @@
+MANIFEST.in
+README.md
+pyproject.toml
+setup.py
+sqrl_python_interface.egg-info/PKG-INFO
+sqrl_python_interface.egg-info/SOURCES.txt
+sqrl_python_interface.egg-info/dependency_links.txt
+sqrl_python_interface.egg-info/top_level.txt
+sqrl_python_interface/agents/base_agent.py
+sqrl_python_interface/utils/python_connection.py
+sqrl_python_interface/utils/structures/ball_prediction_struct.py
+sqrl_python_interface/utils/structures/game_data_struct.py

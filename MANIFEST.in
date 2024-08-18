@@ -1,0 +1,4 @@
+graft sqrl_python_interface
+include pyproject.toml
+include setup.py
+global-exclude *.py[cod]

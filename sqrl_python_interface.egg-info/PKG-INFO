@@ -1,0 +1,18 @@
+Metadata-Version: 2.1
+Name: sqrl_python_interface
+Version: 0.1.0
+Summary: A python package that bridges the gap between the SQRL-TournamentRunner and various rocket league python bots
+Author: JoshyDev
+Project-URL: Source, https://github.com/JoshyDevRL/sqrl_python_interface
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Utilities
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+
+# sqrl_python_interface
+A python package that bridges the gap between the SQRL-TournamentRunner and various rocket league python bots
