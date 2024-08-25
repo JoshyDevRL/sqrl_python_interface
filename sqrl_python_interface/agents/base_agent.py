@@ -1,6 +1,5 @@
 
-from sqrl_python_interface.utils.structures.game_data_struct import GameTickPacket, FieldInfoPacket, GameInfo, GoalInfo, BoostPad, Touch, BoostPadState, BallInfo, Physics, PlayerInfo, Vector3, Rotator
-from sqrl_python_interface.utils.structures.ball_prediction_struct import BallPrediction, Slice
+from sqrl_python_interface.utils.structures.game_data_struct import FieldInfoPacket, BoostPad, GoalInfo, Vector3
 from sqrl_python_interface.utils.python_connection import PythonInterface
 from typing import List, Tuple
 
@@ -112,37 +111,22 @@ class BaseAgent:
         self.index = None
         self.team = None
         self.name = None
-        self.pipe_name = None
-        self.python_interface = None
+        self.match_id = None
+        self.python_interface: PythonInterface = None
         self.renderer = Renderer()
+        self.d = []
         print("[PI] BaseAgent started")
 
-    def set_vars(self, index, team, name, pipe_name):
+    def set_vars(self, index, team, name, match_id):
         self.index = index
         self.team = team
-        self.name = name
-        self.pipe_name = pipe_name
-        self.python_interface = PythonInterface(self.pipe_name)
-        self.python_interface.start_connection()
-        self.logger = print(f'[PI] Initialized bot | index: {index} | tea: {team} | name: {name} | pipe_name: {pipe_name}')
+        self.name = name.replace('$', ' ')
+        self.match_id = match_id
+        self.python_interface = PythonInterface(self.match_id)
+        print(f'[PI] Initialized bot | index: {self.index} | team: {self.team} | name: {self.name} | match_id: {self.match_id}')
 
     def get_packet(self):
-        d = self.python_interface.read()
-        blue_car = PlayerInfo(Physics(Vector3(d[0], d[1], d[2]), Rotator(d[3], d[4], d[5]), Vector3(d[6], d[7], d[8]), Vector3(d[9], d[10], d[11])), d[12], d[13], d[14], d[15], d[16], d[17], d[18], "")
-        orange_car = PlayerInfo(Physics(Vector3(d[19], d[20], d[21]), Rotator(d[22], d[23], d[24]), Vector3(d[25], d[26], d[27]), Vector3(d[28], d[29], d[30])), d[31], d[32], d[33], d[34], d[35], d[36], d[37], "")
-        boost_pads = []
-        for i in range(0, 68, 2):
-            boost_pads.append(BoostPadState(d[38 + int(i/2)], d[39 + int(i/2)]))
-        ball_info = BallInfo(Physics(Vector3(d[106], d[107], d[108]), Rotator(0, 0, 0), Vector3(d[109], d[110], d[111]), Vector3(d[112], d[113], d[114])), Touch(-1, -1))
-        game_info = GameInfo(d[115], d[116], d[117], True, d[118], False, d[119])
-        packet = GameTickPacket(
-            (blue_car, orange_car),
-            2,
-            boost_pads,
-            34,
-            ball_info,
-            game_info
-        )
+        packet = self.python_interface.read()
         return packet
 
     def get_field_info(self):
@@ -187,10 +171,12 @@ class BaseAgent:
         )
         return field_info
     
-    def get_ball_prediction_struct(self) -> BallPrediction:
+    def get_ball_prediction_struct(self):
+        slices = self.python_interface.get_ball_prediction_struct()
+        return slices
 
+    def send_controller(self, team, controller):
+        self.python_interface.send_controller(team, controller)
 
-        return 0
-
-    def send_controller(self, controller):
-        self.python_interface.send(controller)
+    def send_quick_chat(self, q, w):
+        pass

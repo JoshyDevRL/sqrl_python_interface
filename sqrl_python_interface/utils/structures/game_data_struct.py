@@ -22,9 +22,28 @@ class Physics:
     angular_velocity: Vector3
 
 @dataclass
+class BoxShape:
+    length: float
+    width: float
+    height: float
+
+@dataclass
+class ScoreInfo:
+    score: int
+    goals: int
+    own_goals: int
+    assists: int
+    saves: int
+    shots: int
+    demolitions: int
+
+@dataclass
 class PlayerInfo:
     physics: Physics
+    hitbox: BoxShape
+    hitbox_offset: Vector3
     boost: float
+    score_info: ScoreInfo
     team: int
     is_demolished: bool
     has_wheel_contact: bool
@@ -36,7 +55,10 @@ class PlayerInfo:
 @dataclass
 class Touch:
     time_seconds: float
+    hit_location: Vector3
+    hit_normal: Vector3
     team: int
+    player_index: int
 
 @dataclass
 class BallInfo:
